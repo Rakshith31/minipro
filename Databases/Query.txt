@@ -1,0 +1,140 @@
+1.create table DONOR(
+  DID int(4) auto_increment,
+  Dname varchar(15),
+  Sex char(2),
+  Age int,
+  Address varchar(60),
+  Phno varchar(11),
+  constraint did_pk primary key(DID)
+  );
+
+1a.alter table DONOR auto_increment=1000;
+
+1b.insert into DONOR values(NULL,'Rakshith Holla','M',20,'12-271 "Akshara",Ajjibettu, P O Jodumarga,B c Road-574219',8105517930);
+
++-----+---------------------+------------------------------------------+----------+
+   
+2.create table BLOOD(
+  Btype char(3),
+  constraint code_pk primary key(Btype)
+  );
+
+2a.insert into BLOOD values('O+');
+
++-----+---------------------+------------------------------------------+----------+
+
+3. create table HOSPITAL(
+   HID char(4),
+   Hname varchar(20),
+   Haddress varchar(60),
+   Hphno int(11),
+   constraint hid_hname_haddr_phno_pk primary key(HID)
+   );
+
+3a.insert into HOSPITAL values('H10','Srinivas Hospital','Srinivas Hospital,Mukka,Mangaluru-532234',45454545);
+
++-----+---------------------+------------------------------------------+----------+
+
+4.create table ORDERS(
+  Ord_no int(4) auto_increment,
+  Ord_date date,
+  Btype char(3),
+  Quantity float(10),
+  HID char(4),
+  constraint ono_pk primary key(Ord_no),
+  constraint btyp_fk foreign key(Btype) references BLOOD(Btype),
+  constraint hid1_fk foreign key(HID) references HOSPITAL(HID)
+  );
+
+4a.alter table ORDERS auto_increment=1;
+
+4b.insert into ORDERS values(NULL,'2017-9-12','O+',350,'H10');
+
++-----+---------------------+------------------------------------------+----------+
+
+5.create table MANAGER(
+  Mname varchar(15),
+  MID int(4),
+  Mphno int(11),
+  constraint mid_pk primary key(MID)
+  );
+
+5a.insert into MANAGER values("BCDE",5555,8761234560);
+
++-----+---------------------+------------------------------------------+----------+
+
+6.create table RECEPTIONIST(
+  Rname varchar(15),
+  RID int(4),
+  Rphno int(11),
+  MID int(4),
+  constraint mid_fk foreign key(MID) references MANAGER(MID)
+  );
+
+6a.insert into RECEPTIONIST values("ABCD",5556,8761450450,5555);
+
++-----+---------------------+------------------------------------------+----------+
+
+7.create table BBANK(
+  BID int(4),
+  Btype char(3),
+  Quantity float(10),
+  MID int(4),
+  constraint mid1_fk foreign key(MID) references MANAGER(MID),
+  constraint bty_fk foreign key(Btype) references BLOOD(Btype)
+  );
+
+7a.insert into BBANK values(1111,'O+',350,5555);
+
++-----+---------------------+------------------------------------------+----------+
+                                 QUERIES
++-----+---------------------+------------------------------------------+----------+
+
+Q1:insert into ORDERS(ORd_date,Btype,Quantity,HID) values(CURDATE(),'" + this.textBox2.Text + "'," + this.textBox3.Text+ ",'" + this.textBox1.Text + "');
+
+Q2:select DID from DONOR where DID='" + this.textBoxDID.Text + ;
+
+Q3:select o.Ord_no as OrderNo,o.Ord_date as OrderDate,o.Btype as BloodType,o.Quantity as QuantityinML,h.Hname as HospitalName,h.Haddress as Address from HOSPITAL h,ORDERS o where h.HID=o.HID;
+
+Q4:insert into DONOR(Dname,Age,Address,Sex,Phno) values('" + this.textBox1.Text + "'," +this.textBox2.Text+ ",'" + this.textBox3.Text + "','" + this.textBox4.Text + "','" + this.textBox5.Text + "');
+
+Q5:select DID from DONOR where Dname='" + this.textBox1.Text + "' and Phno='" + this.textBox5.Text + "';
+
+Q6:insert into BBANK(BID,Btype,Quantity,MID) values(" + this.textBox1.Text + ",'" + this.textBox2.Text + "'," + this.textBox3.Text + ","+5555+/+5556+/+5557+");
+ 
+TRIGGER USED:-
+
+1.create trigger Olderrcrd
+ after insert on BBANK
+ for each row
+ delete from ORDERS
+ where Ord_date<date_sub(now(),interval 30 day);
+
+STORED PROCEDURE USED:-
+
+ create procedure Bloodsearch(in Bty char(3),in Qty float(10)) select * from BBANK where Btype = Bty AND Quantity >= Qty;
+
+call Bloodsearch('"+Bty+"',"+Qty+");
+
+
+MANAGERS:-
+Manager1-5555 //ManagerID
+Manager2-5556 //ManagerID
+Manager3-5557 //ManagerID
+
+RECEPTIONISTS:-
+Receptionist1-5500  //ReceptionistID
+Receptionist2-5501  //ReceptionistID
+Receptionist3-5502  //ReceptionistID
+Receptionist4-5503  //ReceptionistID
+
+BBANK:-
+1111-BB11  //Passkey
+1112-BB12  //Passkey
+1113-BB13  //Passkey
+
+HOSPITALS:-
+SHM-H10  //HospitalID
+SHV-H11  //HospitalID
+ GH-H12  //HospitalID
+
